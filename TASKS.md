@@ -12,20 +12,21 @@ Status: `todo` | `doing` | `done` | `blocked-with-fallback`
 - [x] `.env.example` secret redaction — *done* (reverted leaked key)
 
 ## Phase 1: Foundations
-- [ ] **architect**: Schemas & shared types (`src/lib/schemas/*`) — *doing* (subagent)
-- [ ] **design**: Design system (`design-system/MASTER.md`), Instrument Serif font, base UI tokens and primitives (`src/components/ui/*`) — *doing* (subagent)
-- [ ] **llm**: Provider adapters (Google/OpenAI/Anthropic/Mock), prompts (`src/prompts/*`), repair logic — *doing* (subagent)
-- [ ] **content**: 6 pre-generated example fixtures (`content/examples/*`) — *doing* (subagent)
-- [ ] **qa**: Vitest & Playwright scaffold — *doing* (scaffold done; subagent expands coverage)
-- [ ] **devops**: `Dockerfile`, `vercel.json`, `/api/health` route — *done* (orchestrator; subagent adds DEPLOY.md + font fetch)
+- [x] **architect**: Schemas & shared types (`src/lib/schemas/*`) — *done* (c68f207)
+- [x] **design**: Design system (`design-system/MASTER.md`), Instrument Serif font, base UI tokens and primitives (`src/components/ui/*`) — *done* (cc5f200)
+- [x] **llm**: Provider adapters (Google/OpenAI/Anthropic/Mock), prompts (`src/prompts/*`), repair logic — *done* (c4c6d4e)
+- [x] **content**: 6 pre-generated example fixtures (`content/examples/*`) — *done* (9cba9ff)
+- [x] **qa**: Vitest & Playwright scaffold — *done* (49466d6; 29 tests green)
+- [x] **devops**: `Dockerfile`, `vercel.json`, `/api/health` route — *done* (8a13a47; DEPLOY.md + font embedded)
+- [x] **orchestrator**: shared `checkRateLimit` helper (`src/lib/ratelimit/request.ts`) — *done*
 
 ## Phase 2: Feature Development
-- [ ] **shell**: Landing page, navbar, input card, before/after strip, history (`src/app/(site)/*`) — *todo*
-- [ ] **read**: Simplify streaming tab & reading level controls (`src/features/read/*`) — *todo*
-- [ ] **see**: Diagram visualization with React Flow & Mermaid (`src/features/see/*`) — *todo*
-- [ ] **play**: Sandboxed interactive iframe & fallback spec renderer (`src/features/play/*`, `src/lib/sandbox/*`) — *todo*
-- [ ] **showme**: Selection floating toolbar, drawer/bottom sheet, context stack (`src/features/showme/*`) — *todo*
-- [ ] **share**: Share link creation (`/s/[id]`), storage adapter, rate limits (`src/features/share/*`) — *todo*
+- [ ] **shell**: Landing page, navbar, input card, before/after strip, history (`src/app/(site)/*`) — *doing* (subagent; issue #1)
+- [ ] **read**: Simplify streaming tab & reading level controls (`src/features/read/*`) — *doing* (subagent; issue #2)
+- [ ] **see**: Diagram visualization with React Flow & Mermaid (`src/features/see/*`) — *doing* (subagent; issue #3)
+- [ ] **play**: Sandboxed interactive iframe & fallback spec renderer (`src/features/play/*`, `src/lib/sandbox/*`) — *doing* (subagent; issue #4)
+- [ ] **showme**: Selection floating toolbar, drawer/bottom sheet, context stack (`src/features/showme/*`) — *doing* (subagent; issue #5)
+- [ ] **share**: Share link creation (`/s/[id]`), storage adapter, rate limits (`src/features/share/*`) — *doing* (subagent; issue #6)
 
 ## Phase 3: Integration & Hardening
 - [ ] Merge feature worktrees to `main` — *todo* (using path ownership, not worktrees — see DECISIONS.md)
