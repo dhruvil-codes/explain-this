@@ -35,3 +35,7 @@ blob-report/
 # OS files
 .DS_Store
 Thumbs.db
+
+# Build artifacts
+tsconfig.tsbuildinfo
+__pycache__/
