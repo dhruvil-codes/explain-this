@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "./tokens.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #faf7f2;
@@ -64,8 +67,82 @@ p {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
+}
+
+::selection {
+  background-color: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* Monospace is reserved for code only. Everything else inherits
+   Instrument Serif from the body rule above. */
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.9em;
+}
+
+/* Calm motion primitives. Durations stay inside the 150-250ms band.
+   The prefers-reduced-motion block below disables them on request. */
+@keyframes et-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes et-drawer-in {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes et-sheet-in {
+  from {
+    opacity: 0;
+    transform: translateY(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes et-progress-slide {
+  0% {
+    transform: translateX(-110%);
+  }
+  100% {
+    transform: translateX(320%);
+  }
+}
+
+.anim-fade-in {
+  animation: et-fade-in var(--motion-base) var(--ease-out) both;
+}
+
+.anim-drawer-in {
+  animation: et-drawer-in var(--motion-slow) var(--ease-out) both;
+}
+
+.anim-sheet-in {
+  animation: et-sheet-in var(--motion-slow) var(--ease-out) both;
+}
+
+.progress-indeterminate-bar {
+  animation: et-progress-slide 1400ms var(--ease-out) infinite;
+  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {

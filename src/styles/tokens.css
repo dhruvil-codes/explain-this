@@ -1,0 +1,156 @@
+/*
+ * ExplainThis design tokens.
+ * Global truth mirrors design-system/MASTER.md. Components must reference
+ * these variables (directly or via the Tailwind theme mapping below) and
+ * must never hard-code raw color values.
+ *
+ * Contrast (WCAG AA, normal text needs 4.5 or higher), verified 2026-10-02:
+ *   light: ink/bg 16.28, muted/bg 5.34, accent/bg 4.85, white/accent 5.18,
+ *          accent-ink/bg 7.13, accent-ink/accent-soft 6.47,
+ *          destructive/bg 6.12, white/destructive 6.54,
+ *          destructive/destructive-soft 5.36,
+ *          success/bg 5.59, white/success 5.98, success/success-soft 5.15,
+ *          ink/paper 17.12, muted/paper 5.61, ink/code-bg 14.77
+ *   dark:  ink/bg 16.05, muted/bg 6.95, accent/bg 7.51, bg/accent 7.51,
+ *          accent/accent-soft 6.36, accent-ink/surface 9.75,
+ *          destructive/bg 8.69, destructive/destructive-soft 7.01,
+ *          success/bg 10.36, success/success-soft 8.26,
+ *          ink/paper 14.58, muted/paper 6.32, ink/code-bg 13.40
+ *
+ * Rule: text on accent-soft surfaces always uses --accent-ink
+ * (accent on accent-soft is 4.40 in light and fails AA).
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Core surfaces and text */
+  --background: #faf7f2;
+  --surface: #ffffff;
+  --paper: #fffdf8;
+  --code-bg: #f1ece1;
+  --ink: #1b1a17;
+  --muted: #6b665c;
+  --hairline: #e4ded2;
+
+  /* Single accent family */
+  --accent: #c2410c;
+  --accent-ink: #93350a;
+  --accent-soft: #fce9dc;
+  --on-accent: #ffffff;
+
+  /* Semantic */
+  --destructive: #b3261e;
+  --destructive-soft: #f9e4e1;
+  --success: #2c7046;
+  --success-soft: #e2f2e7;
+
+  /* Overlays and focus */
+  --overlay: rgba(27, 26, 23, 0.45);
+  --focus-ring: var(--accent);
+
+  /* Diagram palette: five muted tones from the accent family.
+     Nodes always pair ink text with a soft fill; color never
+     carries meaning alone (shape and label repeat the signal). */
+  --diagram-1: #c2410c;
+  --diagram-2: #7c4a21;
+  --diagram-3: #5f6f52;
+  --diagram-4: #3e5c76;
+  --diagram-5: #a16207;
+  --diagram-soft-1: #fce9dc;
+  --diagram-soft-2: #f3e7d6;
+  --diagram-soft-3: #e7ecdf;
+  --diagram-soft-4: #e2e8ee;
+  --diagram-soft-5: #f5ecd4;
+
+  /* Shape */
+  --radius-card: 12px;
+  --radius-card-lg: 14px;
+  --radius-control: 10px;
+  --radius-pill: 999px;
+
+  /* Motion: calm, 150-250ms ease-out everywhere */
+  --motion-fast: 150ms;
+  --motion-base: 200ms;
+  --motion-slow: 250ms;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Type scale: Instrument Serif for everything */
+  --text-body: 19px;
+  --text-body-mobile: 18px;
+  --text-small: 15px;
+  --text-lead: 22px;
+  --leading-body: 1.6;
+
+  /* Elevation: hairlines first, shadow only for paper depth */
+  --shadow-paper-inset: inset 0 2px 6px rgba(27, 26, 23, 0.06);
+
+  /* Layering */
+  --z-drawer: 60;
+  --z-sheet: 60;
+  --z-toast: 70;
+  --z-tooltip: 80;
+}
+
+.dark {
+  color-scheme: dark;
+
+  --background: #141311;
+  --surface: #1c1b18;
+  --paper: #1e1d19;
+  --code-bg: #26241f;
+  --ink: #f2eee6;
+  --muted: #a39e92;
+  --hairline: #2e2c27;
+
+  --accent: #f08a5d;
+  --accent-ink: #f5b58f;
+  --accent-soft: #2e2019;
+  --on-accent: #1b1a17;
+
+  --destructive: #e8a08a;
+  --destructive-soft: #38211c;
+  --success: #8fd0a3;
+  --success-soft: #1c2b22;
+
+  --overlay: rgba(0, 0, 0, 0.6);
+
+  --diagram-1: #f08a5d;
+  --diagram-2: #d9a05f;
+  --diagram-3: #9db38a;
+  --diagram-4: #8fb0cc;
+  --diagram-5: #d9b45f;
+  --diagram-soft-1: #2e2019;
+  --diagram-soft-2: #2b2318;
+  --diagram-soft-3: #20261c;
+  --diagram-soft-4: #1d232b;
+  --diagram-soft-5: #2a2517;
+
+  --shadow-paper-inset: inset 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* Tailwind v4 theme mapping: utilities such as bg-surface, text-ink,
+   text-muted, border-hairline, bg-accent, text-accent-ink,
+   bg-accent-soft, text-on-accent, rounded-card resolve to the
+   variables above and follow light/dark automatically. */
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-paper: var(--paper);
+  --color-code-bg: var(--code-bg);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-hairline: var(--hairline);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-on-accent: var(--on-accent);
+  --color-destructive: var(--destructive);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --radius-card: var(--radius-card);
+  --radius-card-lg: var(--radius-card-lg);
+  --radius-control: var(--radius-control);
+  --radius-pill: var(--radius-pill);
+}
