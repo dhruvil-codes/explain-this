@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: Georgia, serif; margin: 0; padding: 16px; }
+  h2 { font-size: 20px; margin: 0 0 4px; font-weight: normal; }
+  p { font-size: 15px; line-height: 1.5; }
+  .words { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+  button.word { font-family: inherit; font-size: 16px; padding: 8px 14px; border-radius: 999px; border: 1px solid #c9c2b4; background: #fff; cursor: pointer; }
+  button.word[aria-pressed="true"] { background: #C2410C; color: #fff; border-color: #C2410C; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th, td { border: 1px solid #e0dacb; padding: 6px; text-align: center; }
+  td.hot { background: #FCE9DC; font-weight: bold; }
+</style>
+</head>
+<body>
+<h2>Which words does each word listen to?</h2>
+<p>Tap a word in “The cat sat because it was tired” to see its example attention weights. Rows add to one.</p>
+<div class="words" id="words"></div>
+<table id="grid" aria-label="Attention weights"></table>
+<script>
+var words = ["The","cat","sat","because","it","was","tired"];
+var values = [
+  [0.30,0.25,0.20,0.05,0.05,0.05,0.10],
+  [0.10,0.35,0.30,0.05,0.05,0.05,0.10],
+  [0.05,0.25,0.35,0.10,0.05,0.10,0.10],
+  [0.05,0.10,0.15,0.30,0.15,0.15,0.10],
+  [0.05,0.55,0.10,0.10,0.10,0.05,0.05],
+  [0.05,0.15,0.15,0.10,0.10,0.30,0.15],
+  [0.05,0.35,0.15,0.10,0.10,0.10,0.15]
+];
+var current = 4;
+var wrap = document.getElementById("words");
+var grid = document.getElementById("grid");
+function render() {
+  wrap.innerHTML = "";
+  words.forEach(function (w, i) {
+    var b = document.createElement("button");
+    b.className = "word";
+    b.textContent = w;
+    b.setAttribute("aria-pressed", i === current ? "true" : "false");
+    b.onclick = function () { current = i; render(); };
+    wrap.appendChild(b);
+  });
+  var max = Math.max.apply(null, values[current]);
+  var html = "<tr><th></th>" + words.map(function (w) { return "<th>" + w + "</th>"; }).join("") + "</tr>";
+  html += "<tr><th>" + words[current] + "</th>" + values[current].map(function (v) {
+    return '<td class="' + (v === max ? "hot" : "") + '">' + v.toFixed(2) + "</td>";
+  }).join("") + "</tr>";
+  grid.innerHTML = html;
+}
+render();
+</script>
+</body>
+</html>

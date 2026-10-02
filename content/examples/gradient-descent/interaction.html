@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: Georgia, serif; margin: 0; padding: 16px; }
+  h2 { font-size: 20px; margin: 0 0 4px; font-weight: normal; }
+  p { font-size: 15px; line-height: 1.5; }
+  canvas { width: 100%; border: 1px solid #e0dacb; border-radius: 10px; background: #fff; }
+  label { display: block; font-size: 15px; margin: 10px 0 2px; }
+  input[type="range"] { width: 100%; }
+  .bar { display: flex; gap: 8px; margin-top: 12px; }
+  button.nav { font-family: inherit; font-size: 16px; padding: 10px 18px; border-radius: 999px; border: 1px solid #C2410C; background: #C2410C; color: #fff; cursor: pointer; }
+  #readout { font-size: 15px; font-style: italic; }
+</style>
+</head>
+<body>
+<h2>Roll downhill with your own step size</h2>
+<p>Set a starting point and step size, then press Step to roll the ball. The curve is f(x) = (x &#8722; 2)&#178; + 1.</p>
+<canvas id="plot" width="640" height="360"></canvas>
+<p id="readout"></p>
+<label>Starting point: <span id="startVal">-3</span></label>
+<input type="range" id="start" min="-4" max="4" step="0.5" value="-3">
+<label>Step size: <span id="rateVal">0.3</span></label>
+<input type="range" id="rate" min="0.05" max="1" step="0.05" value="0.3">
+<div class="bar">
+<button class="nav" id="step">Step</button>
+<button class="nav" id="reset">Reset</button>
+</div>
+<script>
+function f(x) { return (x - 2) * (x - 2) + 1; }
+function g(x) { return 2 * (x - 2); }
+var x = -3, path = [x];
+var plot = document.getElementById("plot");
+var ctx = plot.getContext("2d");
+function draw() {
+  ctx.clearRect(0, 0, 640, 360);
+  function px(v) { return (v + 5) / 11 * 640; }
+  function py(v) { return 360 - (v / 28) * 360; }
+  ctx.beginPath();
+  for (var i = 0; i <= 200; i++) {
+    var wx = -5 + i * 11 / 200;
+    var cx = px(wx), cy = py(f(wx));
+    if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+  }
+  ctx.strokeStyle = "#6B665C"; ctx.lineWidth = 2; ctx.stroke();
+  ctx.strokeStyle = "#C2410C"; ctx.lineWidth = 2; ctx.beginPath();
+  path.forEach(function (p, k) {
+    var cx = px(p), cy = py(f(p));
+    if (k === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+  });
+  ctx.stroke();
+  var bx = px(x), by = py(f(x));
+  ctx.beginPath(); ctx.arc(bx, by, 9, 0, 7); ctx.fillStyle = "#C2410C"; ctx.fill();
+  document.getElementById("readout").textContent =
+    "Position " + x.toFixed(2) + ", error " + f(x).toFixed(2) + ", after " + (path.length - 1) + " steps.";
+}
+document.getElementById("start").oninput = function (e) {
+  document.getElementById("startVal").textContent = e.target.value;
+  x = parseFloat(e.target.value); path = [x]; draw();
+};
+document.getElementById("rate").oninput = function (e) {
+  document.getElementById("rateVal").textContent = e.target.value;
+};
+document.getElementById("step").onclick = function () {
+  var r = parseFloat(document.getElementById("rate").value);
+  x = x - r * g(x); path.push(x); draw();
+};
+document.getElementById("reset").onclick = function () {
+  x = parseFloat(document.getElementById("start").value); path = [x]; draw();
+};
+draw();
+</script>
+</body>
+</html>

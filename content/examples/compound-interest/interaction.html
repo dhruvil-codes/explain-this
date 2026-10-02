@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: Georgia, serif; margin: 0; padding: 16px; }
+  h2 { font-size: 20px; margin: 0 0 4px; font-weight: normal; }
+  p { font-size: 15px; line-height: 1.5; }
+  label { display: block; font-size: 15px; margin: 10px 0 2px; }
+  input[type="range"] { width: 100%; }
+  .bars { display: flex; align-items: flex-end; gap: 24px; height: 220px; margin: 16px 0 8px; }
+  .barwrap { flex: 1; text-align: center; font-size: 15px; }
+  .bar { border-radius: 8px 8px 0 0; min-height: 4px; }
+  #simpleBar { background: #A39E92; }
+  #compoundBar { background: #C2410C; }
+  .amt { font-style: italic; }
+</style>
+</head>
+<body>
+<h2>Simple against compound, with your numbers</h2>
+<p>Move the sliders. The orange bar is compound growth; the grey bar is simple growth.</p>
+<label>Starting amount: $<span id="pVal">1000</span></label>
+<input type="range" id="p" min="0" max="20000" step="500" value="1000">
+<label>Yearly rate: <span id="rVal">5</span>%</label>
+<input type="range" id="r" min="0" max="12" step="0.5" value="5">
+<label>Years: <span id="tVal">10</span></label>
+<input type="range" id="t" min="1" max="40" step="1" value="10">
+<div class="bars">
+  <div class="barwrap"><div class="bar" id="simpleBar"></div><div>Simple<br><span class="amt" id="simpleAmt"></span></div></div>
+  <div class="barwrap"><div class="bar" id="compoundBar"></div><div>Compound<br><span class="amt" id="compoundAmt"></span></div></div>
+</div>
+<script>
+function money(v) { return "$" + Math.round(v).toLocaleString("en-US"); }
+function render() {
+  var P = parseFloat(document.getElementById("p").value);
+  var r = parseFloat(document.getElementById("r").value);
+  var t = parseFloat(document.getElementById("t").value);
+  document.getElementById("pVal").textContent = P;
+  document.getElementById("rVal").textContent = r;
+  document.getElementById("tVal").textContent = t;
+  var simple = P * (1 + (r / 100) * t);
+  var compound = P * Math.pow(1 + r / 100, t);
+  document.getElementById("simpleAmt").textContent = money(simple);
+  document.getElementById("compoundAmt").textContent = money(compound);
+  var top = Math.max(simple, compound, 1);
+  document.getElementById("simpleBar").style.height = (simple / top * 200) + "px";
+  document.getElementById("compoundBar").style.height = (compound / top * 200) + "px";
+}
+["p", "r", "t"].forEach(function (id) {
+  document.getElementById(id).oninput = render;
+});
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font-family: Georgia, serif; margin: 0; padding: 16px; }
+  h2 { font-size: 20px; margin: 0 0 4px; font-weight: normal; }
+  p { font-size: 15px; line-height: 1.5; }
+  ol { padding: 0; list-style: none; margin: 12px 0; }
+  li { border: 1px solid #e0dacb; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; font-size: 15px; opacity: 0.45; }
+  li.on { opacity: 1; border-color: #C2410C; background: #FCE9DC; }
+  li b { display: block; font-weight: normal; font-style: italic; }
+  .bar { display: flex; gap: 8px; margin-top: 12px; }
+  button.nav { font-family: inherit; font-size: 16px; padding: 10px 18px; border-radius: 999px; border: 1px solid #C2410C; background: #C2410C; color: #fff; cursor: pointer; }
+  button.nav[disabled] { opacity: 0.4; }
+</style>
+</head>
+<body>
+<h2>Replay the six login messages</h2>
+<p>Press Next to pass each message between you, the photo app, and the login provider.</p>
+<ol id="msgs"></ol>
+<div class="bar">
+<button class="nav" id="back">Back</button>
+<button class="nav" id="next">Next</button>
+</div>
+<script>
+var msgs = [
+  ["You &#8594; Photo app", "Open the app. You click “Log in with provider”."],
+  ["Photo app &#8594; Login provider", "Send to login. Your browser is redirected with the request."],
+  ["Login provider &#8594; You", "Ask permission. You see exactly what the app wants."],
+  ["Login provider &#8594; Photo app", "Return ticket. A short-lived code travels back."],
+  ["Photo app &#8594; Login provider", "Swap for token. A private channel trade using the app secret."],
+  ["Login provider &#8594; Photo app", "Give token. The app loads only your allowed data."]
+];
+var i = 0;
+var list = document.getElementById("msgs");
+function render() {
+  list.innerHTML = "";
+  msgs.forEach(function (m, k) {
+    var li = document.createElement("li");
+    if (k <= i) li.className = "on";
+    li.innerHTML = "<b>" + (k + 1) + ". " + m[0] + "</b>" + m[1];
+    list.appendChild(li);
+  });
+  document.getElementById("back").disabled = i === 0;
+  document.getElementById("next").disabled = i === msgs.length - 1;
+}
+document.getElementById("back").onclick = function () { if (i > 0) i--; render(); };
+document.getElementById("next").onclick = function () { if (i < msgs.length - 1) i++; render(); };
+render();
+</script>
+</body>
+</html>
